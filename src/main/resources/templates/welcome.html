@@ -1,164 +1,352 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Web App</title>
-    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          crossorigin="anonymous">
-    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-    <link th:href="@{/css/styles.css}" href="/css/styles.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:with="currentLang=${currentLang ?: 'en'}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="#{app.title}">Modern Web App</title>
+    <link
+      th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+    <link
+      th:href="@{/css/styles.css}"
+      href="/css/styles.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="/assets/logo.svg" alt="Universidad Zaragoza Logo" class="me-2 navbar-logo">
-                Modern Web App
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img
+            src="/assets/logo.svg"
+            alt="Universidad Zaragoza Logo"
+            class="me-2 navbar-logo"
+          />
+          <span th:text="#{app.name}">Modern Web App</span>
+        </a>
+        <div class="navbar-nav ms-auto">
+          <!-- Selector de idioma -->
+          <div class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="languageDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span th:text="#{language.current}">🌐 Language</span>
             </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/actuator/health" target="_blank">Health</a>
-                <a class="nav-link" href="/api/hello">API</a>
-            </div>
+            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="?lang=en"
+                  th:text="#{language.english}"
+                  >English</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="?lang=es"
+                  th:text="#{language.spanish}"
+                  >Español</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="?lang=fr"
+                  th:text="#{language.french}"
+                  >Français</a
+                >
+              </li>
+            </ul>
+          </div>
+          <a
+            class="nav-link"
+            href="/actuator/health"
+            target="_blank"
+            th:text="#{nav.health}"
+            >Health</a
+          >
+          <a class="nav-link" href="/api/hello" th:text="#{nav.api}">API</a>
         </div>
+      </div>
     </nav>
 
     <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow">
-                    <div class="card-body text-center p-5">
-                        <img class="d-block mx-auto mb-4 main-logo" src="/assets/logo.svg" alt="Universidad Zaragoza Logo">
-                        <h1 class="display-4 fw-bold text-primary mb-4">Welcome to Modern Web App</h1>
-                        <p class="lead mb-4" th:text="${message}">Hello student.</p>
-                        
-                        <!-- HTTP Debug Section -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header bg-info text-white">
-                                        <h5 class="card-title mb-0">
-                                            <i class="bi bi-code-slash"></i> Interactive HTTP Testing & Debug
-                                            <small class="float-end">Client-Side Educational Tool</small>
-                                        </h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="text-muted mb-3">
-                                            This section demonstrates HTTP requests and responses using JavaScript Fetch API. 
-                                            All interactions below will show real HTTP communication in action!
-                                        </p>
-                                        
-                                        <!-- Interactive HTTP Testing -->
-                                        <div class="row mb-4">
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">Web Page Greeting</h6>
-                                                        <p class="small text-muted">Test the main web page with personalized greeting</p>
-                                                        <div class="mb-3">
-                                                            <input type="text" id="webName" class="form-control" placeholder="Enter your name" th:value="${name}">
-                                                        </div>
-                                                        <button id="testWebBtn" class="btn btn-primary w-100">Test Web Page</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                         <h6 class="card-title">API Endpoints</h6>
-                                                        <p class="small text-muted">Test the REST API with JSON response</p>
-                                                        <div class="mb-3">
-                                                            <input type="text" id="apiName" class="form-control" placeholder="Enter name (optional)" value="Student">
-                                                        </div>
-                                                        <button id="testApiBtn" class="btn btn-success w-100">Test /api/hello</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">Health Check</h6>
-                                                        <p class="small text-muted">Test the application health endpoint</p>
-                                                        <div class="mb-3">
-                                                            <button id="testHealthBtn" class="btn btn-warning w-100">Test /actuator/health</button>
-                                                        </div>
-                                                        <button id="openDevToolsBtn" class="btn btn-outline-info w-100">How to Open Dev Tools</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- HTTP Request/Response Display -->
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h6 class="text-primary text-start">
-                                                    <i class="bi bi-arrow-right-circle"></i> HTTP Request
-                                                </h6>
-                                                <div id="requestInfo" class="bg-light p-3 rounded text-start http-debug-request">
-                                                    <div class="text-muted">Click a test button above to see HTTP request details...</div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-md-6">
-                                                <h6 class="text-success text-start">
-                                                    <i class="bi bi-arrow-left-circle"></i> HTTP Response
-                                                </h6>
-                                                <div id="responseInfo" class="bg-light p-3 rounded text-start http-debug-response">
-                                                    <div class="text-muted">Click a test button above to see HTTP response details...</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mt-3">
-                                            <div class="alert alert-info text-start">
-                                                <h6 class="alert-heading text-start">
-                                                    <i class="bi bi-lightbulb"></i> Learning Notes:
-                                                </h6>
-                                                <ul class="mb-0 text-start">
-                                                    <li><strong>Fetch API:</strong> Modern JavaScript way to make HTTP requests</li>
-                                                    <li><strong>Promise-based:</strong> Asynchronous operations using .then() and async/await</li>
-                                                    <li><strong>JSON Response:</strong> API endpoints return structured data</li>
-                                                    <li><strong>Status Codes:</strong> 200 = success, 404 = not found, 500 = server error</li>
-                                                    <li><strong>Headers:</strong> Metadata sent with every request and response</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card shadow">
+            <div class="card-body text-center p-5">
+              <img
+                class="d-block mx-auto mb-4 main-logo"
+                src="/assets/logo.svg"
+                alt="Universidad Zaragoza Logo"
+              />
+              <h1
+                class="display-4 fw-bold text-primary mb-4"
+                th:text="#{welcome.title}"
+              >
+                Welcome to Modern Web App
+              </h1>
+              <p class="lead mb-4" th:text="${message}">Hello student.</p>
+
+              <!-- HTTP Debug Section -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header bg-info text-white">
+                      <h5 class="card-title mb-0">
+                        <i class="bi bi-code-slash"></i>
+                        <span th:text="#{debug.title}"
+                          >Interactive HTTP Testing & Debug</span
+                        >
+                        <small class="float-end" th:text="#{debug.subtitle}"
+                          >Client-Side Educational Tool</small
+                        >
+                      </h5>
                     </div>
+                    <div class="card-body">
+                      <p class="text-muted mb-3" th:text="#{debug.description}">
+                        This section demonstrates HTTP requests and responses
+                        using JavaScript Fetch API. All interactions below will
+                        show real HTTP communication in action!
+                      </p>
+
+                      <!-- Interactive HTTP Testing -->
+                      <div class="row mb-4">
+                        <div class="col-md-4">
+                          <div class="card">
+                            <div class="card-body">
+                              <h6
+                                class="card-title"
+                                th:text="#{debug.web.greeting}"
+                              >
+                                Web Page Greeting
+                              </h6>
+                              <p
+                                class="small text-muted"
+                                th:text="#{debug.web.description}"
+                              >
+                                Test the main web page with personalized
+                                greeting
+                              </p>
+                              <div class="mb-3">
+                                <input
+                                  type="text"
+                                  id="webName"
+                                  class="form-control"
+                                  th:placeholder="#{debug.enter.name}"
+                                  placeholder="Enter your name"
+                                  th:value="${name}"
+                                />
+                              </div>
+                              <button
+                                id="testWebBtn"
+                                class="btn btn-primary w-100"
+                                th:text="#{debug.test.web}"
+                              >
+                                Test Web Page
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="card">
+                            <div class="card-body">
+                              <h6
+                                class="card-title"
+                                th:text="#{debug.api.endpoints}"
+                              >
+                                API Endpoints
+                              </h6>
+                              <p
+                                class="small text-muted"
+                                th:text="#{debug.api.description}"
+                              >
+                                Test the REST API with JSON response
+                              </p>
+                              <div class="mb-3">
+                                <input
+                                  type="text"
+                                  id="apiName"
+                                  class="form-control"
+                                  th:placeholder="#{debug.enter.name.optional}"
+                                  placeholder="Enter name (optional)"
+                                  value="Student"
+                                />
+                              </div>
+                              <button
+                                id="testApiBtn"
+                                class="btn btn-success w-100"
+                                th:text="#{debug.test.api}"
+                              >
+                                Test /api/hello
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="card">
+                            <div class="card-body">
+                              <h6
+                                class="card-title"
+                                th:text="#{debug.health.check}"
+                              >
+                                Health Check
+                              </h6>
+                              <p
+                                class="small text-muted"
+                                th:text="#{debug.health.description}"
+                              >
+                                Test the application health endpoint
+                              </p>
+                              <div class="mb-3">
+                                <button
+                                  id="testHealthBtn"
+                                  class="btn btn-warning w-100"
+                                  th:text="#{debug.test.health}"
+                                >
+                                  Test /actuator/health
+                                </button>
+                              </div>
+                              <button
+                                id="openDevToolsBtn"
+                                class="btn btn-outline-info w-100"
+                                th:text="#{debug.how.to.devtools}"
+                              >
+                                How to Open Dev Tools
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- HTTP Request/Response Display -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h6 class="text-primary text-start">
+                            <i class="bi bi-arrow-right-circle"></i>
+                            <span th:text="#{debug.request}">HTTP Request</span>
+                          </h6>
+                          <div
+                            id="requestInfo"
+                            class="bg-light p-3 rounded text-start http-debug-request"
+                          >
+                            <div
+                              class="text-muted"
+                              th:text="#{debug.request.placeholder}"
+                            >
+                              Click a test button above to see HTTP request
+                              details...
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <h6 class="text-success text-start">
+                            <i class="bi bi-arrow-left-circle"></i>
+                            <span th:text="#{debug.response}"
+                              >HTTP Response</span
+                            >
+                          </h6>
+                          <div
+                            id="responseInfo"
+                            class="bg-light p-3 rounded text-start http-debug-response"
+                          >
+                            <div
+                              class="text-muted"
+                              th:text="#{debug.response.placeholder}"
+                            >
+                              Click a test button above to see HTTP response
+                              details...
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mt-3">
+                        <div class="alert alert-info text-start">
+                          <h6 class="alert-heading text-start">
+                            <i class="bi bi-lightbulb"></i>
+                            <span th:text="#{debug.learning.notes}"
+                              >Learning Notes:</span
+                            >
+                          </h6>
+                          <ul class="mb-0 text-start">
+                            <li th:text="#{debug.note.fetch}">
+                              <strong>Fetch API:</strong> Modern JavaScript way
+                              to make HTTP requests
+                            </li>
+                            <li th:text="#{debug.note.promise}">
+                              <strong>Promise-based:</strong> Asynchronous
+                              operations using .then() and async/await
+                            </li>
+                            <li th:text="#{debug.note.json}">
+                              <strong>JSON Response:</strong> API endpoints
+                              return structured data
+                            </li>
+                            <li th:text="#{debug.note.status}">
+                              <strong>Status Codes:</strong> 200 = success, 404
+                              = not found, 500 = server error
+                            </li>
+                            <li th:text="#{debug.note.headers}">
+                              <strong>Headers:</strong> Metadata sent with every
+                              request and response
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <footer class="bg-dark text-light text-center py-3 mt-5">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 Modern Web App. Built with Spring Boot 3.5.3 & Kotlin 2.2.10</p>
-        </div>
+      <div class="container">
+        <p class="mb-0" th:text="#{footer.copyright}">
+          &copy; 2025 Modern Web App. Built with Spring Boot 3.5.3 & Kotlin
+          2.2.10
+        </p>
+      </div>
     </footer>
 
-    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous"></script>
-    
+    <script
+      th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+
     <!-- HTTP Debug JavaScript -->
     <script th:src="@{/js/http-debug.js}" src="/js/http-debug.js"></script>
-    
+
     <!-- LiveReload Script for Development -->
     <script>
-        // LiveReload script with error handling
-        (function() {
-            var script = document.createElement('script');
-            script.src = 'http://localhost:35729/livereload.js';
-            script.onerror = function() {
-                console.log('LiveReload not available');
-            };
-            document.head.appendChild(script);
-        })();
+      // LiveReload script with error handling
+      (function () {
+        var script = document.createElement("script");
+        script.src = "http://localhost:35729/livereload.js";
+        script.onerror = function () {
+          console.log("LiveReload not available");
+        };
+        document.head.appendChild(script);
+      })();
     </script>
-</body>
+  </body>
 </html>
