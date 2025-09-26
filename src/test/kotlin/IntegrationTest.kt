@@ -21,11 +21,10 @@ class IntegrationTest {
     @Test
     fun `should return home page with modern title and client-side HTTP debug`() {
         val response = restTemplate.getForEntity("http://localhost:$port", String::class.java)
-        
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).contains("<title>Modern Web App</title>")
+        assertThat(response.body).contains("<span>Modern Web App</span>")
         assertThat(response.body).contains("Welcome to Modern Web App")
-        assertThat(response.body).contains("Interactive HTTP Testing & Debug")
+        assertThat(response.body).contains("Interactive HTTP Testing &amp; Debug")
         assertThat(response.body).contains("Client-Side Educational Tool")
     }
 
@@ -69,11 +68,11 @@ class IntegrationTest {
         val response = restTemplate.getForEntity("http://localhost:$port?name=Student", String::class.java)
         
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).contains("Interactive HTTP Testing & Debug")
+        assertThat(response.body).contains("Interactive HTTP Testing &amp; Debug")
         assertThat(response.body).contains("Client-Side Educational Tool")
         assertThat(response.body).contains("Web Page Greeting")
         assertThat(response.body).contains("API Endpoint")
         assertThat(response.body).contains("Health Check")
-        assertThat(response.body).contains("Learning Notes:")
+        assertThat(response.body).contains("Learning Notes")
     }
 }

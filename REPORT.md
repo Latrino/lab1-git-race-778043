@@ -31,3 +31,4 @@ He aprendido el uso de Spring Boot para internacionalización (i18n) de aplicaci
 - He implementado la lógica para gestionar el cambio de idioma mediante un selector en la barra de navegación.
 - Comprensión completa del código original, su integración y funcionamiento dentro del contexto de la aplicación.
 - Comprensión sobre el funcionamiento de LocaleResolver y LocaleChangeInterceptor, y su correcta implementación en la aplicación, incluyendo la resolución de conflictos que surgían al llamar a locale en el controlador y que no se reflejaban en la vista.
+- Corrección de los tests de integración para que verifiquen correctamente la presencia de los nuevos textos internacionalizados.
